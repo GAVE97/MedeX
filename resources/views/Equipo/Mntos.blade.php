@@ -27,7 +27,7 @@
                                           Ubicación: {{$Mnto->Ubicacion}}
                     </p>
 
-                    <a href="/Equipos/{{$Mnto->ID_inventario}}" class="btn btn-primary">Ir al equipo</a>
+                    <a href="/Mantenimiento/{{$Mnto->NombreMnto}}" class="btn btn-primary">Ir al perfil</a>
                     </div>
                 </div> 
         </div>

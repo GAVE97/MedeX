@@ -22,10 +22,16 @@ class ReporteCtrl extends Controller
      */
     public function index(Request $request)
     {
+        
         //$request->user()->authorizeRole(['superAdmin', 'Ingeniero','personalMedico']);
         $Reportes = Reporte::all();
-        return view('Formatos.Reportes', compact('Reportes'));
-
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Formatos.Reportes', compact('Reportes'));
+        }
+        
     }
 
     /**
@@ -38,7 +44,12 @@ class ReporteCtrl extends Controller
         //$request->user()->authorizeRole(['superAdmin', 'Ingeniero','personalMedico']);
         
         $Mntos = Mnto::all();
-        return view('Formatos.newReporte', compact('Mntos'));
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+                    return view('Formatos.newReporte', compact('Mntos'));
+        }
     }
 
     /**
@@ -49,50 +60,55 @@ class ReporteCtrl extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $Reporte = new Reporte();
-        $Reporte->tipo_de_servicio = $request->input('tipo_de_servicio');
-        $Reporte->falla_detectada = $request->input('falla_detectada');
-        $Reporte->actividades_realizadas = $request->input('actividades_realizadas');
-        $Reporte->Materiales = $request->input('Materiales');
-        $Reporte->Artículos_de_limpieza = $request->input('Artículos_de_limpieza');
-        $Reporte->Equipos_de_medicion = $request->input('Equipos_de_medicion');
-        $Reporte->simuladores = $request->input('simuladores');
-        $Reporte->Herramienta = $request->input('Herramienta');
-        $Reporte->estado_del_servicio = $request->input('estado_del_servicio'); // se tendr'a que hacer un if
-        $Reporte->nombre_Mnto = $request->input('nombre_Mnto');//
-        $Reporte->ID_inv = $request->input('ID_inv');
-        //RELACION CON EL EQUIPO (foreingKey)
-        $Equipo = Equipo::where('ID_inventario', $request->ID_inv)->get(); 
-        $Reporte->Nombre =  $Equipo[0]['Nombre'];
-        $Reporte->Marca =  $Equipo[0]['Marca'];
-        $Reporte->Modelo =  $Equipo[0]['Modelo'];
-        $Reporte->Area =  $Equipo[0]['Area'];
-        $Reporte->Tipo =  $Equipo[0]['Tipo'];
-        $Reporte->Num_de_serie =  $Equipo[0]['Num_de_serie'];
-        $Reporte->Ubicacion =  $Equipo[0]['Ubicacion'];
-        $Reporte->Mnto =  $Equipo[0]['Mnto'];
-        $Reporte->servDoneBy = $request->input('servDoneBy');
-        $Reporte->Acciones = $request->input('Acciones');
-        $Reporte->Observaciones = $request->input('Observaciones');
-        $Reporte->origen_del_fallo = $request->input('origen_del_fallo');
-        
-
-        if ($Reporte->origen_del_fallo == 'Especifica'){
-            $Reporte->origen_del_fallo = $request->input('origen_del_fallo_especifico');
-        } 
-        else{
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            $Reporte = new Reporte();
+            $Reporte->tipo_de_servicio = $request->input('tipo_de_servicio');
+            $Reporte->falla_detectada = $request->input('falla_detectada');
+            $Reporte->actividades_realizadas = $request->input('actividades_realizadas');
+            $Reporte->Materiales = $request->input('Materiales');
+            $Reporte->Artículos_de_limpieza = $request->input('Artículos_de_limpieza');
+            $Reporte->Equipos_de_medicion = $request->input('Equipos_de_medicion');
+            $Reporte->simuladores = $request->input('simuladores');
+            $Reporte->Herramienta = $request->input('Herramienta');
+            $Reporte->estado_del_servicio = $request->input('estado_del_servicio'); // se tendr'a que hacer un if
+            $Reporte->nombre_Mnto = $request->input('nombre_Mnto');//
+            $Reporte->ID_inv = $request->input('ID_inv');
+            //RELACION CON EL EQUIPO (foreingKey)
+            $Equipo = Equipo::where('ID_inventario', $request->ID_inv)->get(); 
+            $Reporte->Nombre =  $Equipo[0]['Nombre'];
+            $Reporte->Marca =  $Equipo[0]['Marca'];
+            $Reporte->Modelo =  $Equipo[0]['Modelo'];
+            $Reporte->Area =  $Equipo[0]['Area'];
+            $Reporte->Tipo =  $Equipo[0]['Tipo'];
+            $Reporte->Num_de_serie =  $Equipo[0]['Num_de_serie'];
+            $Reporte->Ubicacion =  $Equipo[0]['Ubicacion'];
+            $Reporte->Mnto =  $Equipo[0]['Mnto'];
+            $Reporte->servDoneBy = $request->input('servDoneBy');
+            $Reporte->Acciones = $request->input('Acciones');
+            $Reporte->Observaciones = $request->input('Observaciones');
             $Reporte->origen_del_fallo = $request->input('origen_del_fallo');
+            
+    
+            if ($Reporte->origen_del_fallo == 'Especifica'){
+                $Reporte->origen_del_fallo = $request->input('origen_del_fallo_especifico');
+            } 
+            else{
+                $Reporte->origen_del_fallo = $request->input('origen_del_fallo');
+            }
+            $Reporte->save();
+    
+            $Mnto = Mnto::where('NombreMnto',  $Reporte->Mnto)->get();
+            $Reporte->mntoLogo =  $Mnto[0]['imagenMnto'];
+    
+            $qrReporte = QrCode::size(150)->generate('http://protomedex.site/Reportes/'.$Reporte->id);
+            $QREquipo = QrCode::size(150)->generate('http://protomedex.site/Equipos/'.$Reporte->ID_inv);
+            $pdf = \PDF::loadView('Formatos.Reporte', ["valor1" => $qrReporte, "valor2" => $QREquipo], compact('Reporte'));
+            return $pdf->stream('Reporte de mantenimiento.pdf');
         }
-        $Reporte->save();
-
-        $Mnto = Mnto::where('NombreMnto',  $Reporte->Mnto)->get();
-        $Reporte->mntoLogo =  $Mnto[0]['imagenMnto'];
-
-        $qrReporte = QrCode::size(150)->generate('http://192.168.100.23:8000/Reportes/'.$Reporte->id);
-        $QREquipo = QrCode::size(150)->generate('http://192.168.100.23:8000/Equipos/'.$Reporte->ID_inv);
-        $pdf = \PDF::loadView('Formatos.Reporte', ["valor1" => $qrReporte, "valor2" => $QREquipo], compact('Reporte'));
-        return $pdf->stream('Reporte de mantenimiento.pdf');
+        
     }
 
     /**
@@ -104,14 +120,18 @@ class ReporteCtrl extends Controller
     public function show(Request $request, $id)
     {
         $Reporte = Reporte::find($id);
-        
         $Mnto = Mnto::where('NombreMnto',  $Reporte->Mnto)->get();
-        //dd($Mnto->imagenMnto);
         $Reporte->mntoLogo =  $Mnto[0]['imagenMnto'];
-        $qrReporte = QrCode::size(150)->generate('http://192.168.100.23:8000/Reportes/'.$Reporte->id);
-        $QREquipo = QrCode::size(150)->generate('http://192.168.100.23:8000/Equipos/'.$Reporte->ID_inv);
+        $qrReporte = QrCode::size(150)->generate('http://protomedex.site/Reportes/'.$Reporte->id);
+        $QREquipo = QrCode::size(150)->generate('http://protomedex.site/Equipos/'.$Reporte->ID_inv);
         $pdf = \PDF::loadView('Formatos.Reporte', [ "valor1" => $qrReporte, "valor2" => $QREquipo], compact('Reporte'));
-        return $pdf->stream('prueba.pdf');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return $pdf->stream('prueba.pdf');
+        }
+        
     }
 
     /**

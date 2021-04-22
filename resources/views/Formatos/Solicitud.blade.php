@@ -27,7 +27,7 @@
     </tr>
 </table>
 
-<table  width=100%>  <!-- Tabla de información del formato -->
+<table  width=100% >  <!-- Tabla de información del formato -->
     <tr>
         <td> <div align=center><FONT SIZE=+1>SOLICITUD DE MANTENIMIENTO DE EQUIPO MÉDICO</FONT></div>
         </td>
@@ -44,7 +44,7 @@
     </tr>
 </table>
 
-<table  width=100%>  <!-- Tabla con datos relevantes del equipo -->  
+<table  width=100% >  <!-- Tabla con datos relevantes del equipo -->  
     <tr>
         <td width="10%">
         </td>
@@ -98,14 +98,14 @@
         </td>
         <td width="4%">
         </td>
-        <td colspan="2">
-            <table width=100%>  <!-- Tabla descripción del fallo y observaciones -->
+        <td colspan="2" align=top>
+            <table width=100% >  <!-- Tabla descripción del fallo y observaciones -->
                 <tr>
-                    <td>DESCRIPCION DEL FALLO:<br/>{{$Solicitud->Descripcion_del_fallo}}
+                    <td> <FONT SIZE=+1.8>Reportó:{{$Solicitud->reportadoPor}}</FONT>
                     </td>
                 </tr>
                 <tr>
-                    <td><br/><br/>
+                    <td>DESCRIPCION DEL FALLO:<br/>{{$Solicitud->Descripcion_del_fallo}}
                     </td>
                 </tr>
                 <tr>
@@ -149,9 +149,10 @@
                 <tr>
                     <td>
                     </td>
-                </tr>
+                </tr><hr width=86%>
                 <tr>
-                    <td><div align=center>Firma</div>
+                    <td> <div class="ml-2">Frima.
+                    </div> 
                     </td>
                 </tr>
             </table>

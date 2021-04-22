@@ -17,9 +17,13 @@ class MntoCtrl extends Controller
      */
     public function index(Request $request)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
         $Mntos = Mnto::all();
-        return view('Equipo.Mntos', compact('Mntos'));
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.Mntos', compact('Mntos'));
+        }
 
     }
 
@@ -30,8 +34,12 @@ class MntoCtrl extends Controller
      */
     public function create(Request $request)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
-        return view('Equipo.newMnto');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.newMnto');
+        }
     }
 
     /**
@@ -68,7 +76,13 @@ class MntoCtrl extends Controller
     public function show(Request $request, $NombreMnto)
     {
         $Mnto = Mnto::find($NombreMnto);
-        return view('Equipo.showMnto', compact('Mnto'));
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.showMnto', compact('Mnto'));
+        } 
+        
     }
 
     /**
@@ -77,11 +91,17 @@ class MntoCtrl extends Controller
      * @param  int  $NombreMnto
      * @return \Illuminate\Http\Response
      */
-    public function edit($NombreMnto)
+    public function edit(Request $request, $NombreMnto)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
         $Mnto = Mnto::find($NombreMnto);
-        return view('Equipo.editMnto', compact('Mnto'));
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.editMnto', compact('Mnto'));       
+        } 
+
+        
         
     }
 
@@ -115,12 +135,15 @@ class MntoCtrl extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($NombreMnto)
+    public function destroy(Request $request, $NombreMnto)
     {
         $Mnto = Mnto::find($NombreMnto);
-        //dd($Mnto);
-        $Mnto->delete();
-        $Mnto = Mnto::all();
-        return view('Nav.Navegacion');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            $Mnto->delete();
+            return view('Nav.Navegacion');
+        } 
     }
 }

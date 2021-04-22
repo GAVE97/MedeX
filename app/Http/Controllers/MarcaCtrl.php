@@ -17,11 +17,13 @@ class MarcaCtrl extends Controller
      */
     public function index(Request $request)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
-        //Falta definir bien la vista
         $Marcas = Marca::all();
-        return view('Equipo.Marcas', compact('Marcas'));
-        
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.Marcas', compact('Marcas'));
+        }      
     }
 
     /**
@@ -31,8 +33,12 @@ class MarcaCtrl extends Controller
      */
     public function create(Request $request)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
-        return view('Equipo.newMarca');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.newMarca');
+        } 
     }
 
     /**
@@ -68,9 +74,13 @@ class MarcaCtrl extends Controller
      */
     public function show(Request $request, $NombreMrk)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
-        $Marca = Marca::find($NombreMrk);   
-        return view('Equipo.showMarca', compact('Marca'));
+        $Marca = Marca::find($NombreMrk);
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.showMarca', compact('Marca'));
+        }  
     }
 
     /**
@@ -79,11 +89,15 @@ class MarcaCtrl extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($NombreMrk)
+    public function edit(Request $request, $NombreMrk)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero']);
         $Marca = Marca::find($NombreMrk);
-        return view('Equipo.editMarca', compact('Marca'));
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            return view('Equipo.editMarca', compact('Marca'));
+        } 
     }
  
     /**
@@ -106,7 +120,6 @@ class MarcaCtrl extends Controller
         $Marca->save();
        
         return view('Nav.Navegacion');
-        //return $request;
     }
 
     /**
@@ -115,11 +128,16 @@ class MarcaCtrl extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy ($NombreMrk)
+    public function destroy (Request $request, $NombreMrk)
     {
         $Marca = Marca::find($NombreMrk);
-        $Marca->delete();
-        $Marcas = Marca::all();
-        return view('Nav.Navegacion');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero'])) {
+            $Marca->delete();
+            return view('Nav.Navegacion');
+        } 
+
     }
 }

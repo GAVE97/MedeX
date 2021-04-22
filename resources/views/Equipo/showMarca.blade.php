@@ -6,7 +6,6 @@
 
 <div class="container">    
     <div class="row">
-        @foreach($Marcas as $Marca)
         <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6 mt-4" >
                 <div class="card text center" style="width: 14rem;">
                              <!--Añadir logos o fotos de las marcas-->
@@ -28,7 +27,6 @@
                     </div>
                 </div> 
         </div>
-        @endforeach    
     </div>
     </div>   
 @endsection

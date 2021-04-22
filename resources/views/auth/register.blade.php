@@ -44,7 +44,7 @@
                             
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%?&]).{8,}" required autocomplete="new-password" title="Debe contener por lo menos un numero, una letra mayúscula una letra minúscula, un caracter especial ($@$!%?&) y tener entre 8 y 15 caracteres">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@¡!/|°%¿?&{}#<>()ñÑ*'+-_.`^~¨;:,]).{8,}" required autocomplete="new-password" title="Debe contener por lo menos un numero, una letra mayúscula una letra minúscula, un caracter especial ($@¡!/|°%¿?&{}#<>()ñÑ*'+-_.`^~¨;:,=) y tener entre 8 y 15 caracteres">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -58,7 +58,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%?&]).{8,}" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@¡!/|°%¿?&{}#<>()ñÑ*'+-_.`^~¨;:,]).{8,}" required autocomplete="new-password">
                             </div>
                         </div>
 

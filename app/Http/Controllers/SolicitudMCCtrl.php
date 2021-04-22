@@ -21,9 +21,13 @@ class SolicitudMCCtrl extends Controller
      */
     public function index(Request $request)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero', 'personalMedico']);
-        $Solicitudes = Solicitud::all();   
-        return view('Formatos.Solicitudes', compact('Solicitudes'));
+        $Solicitudes = Solicitud::all();
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero', 'personalMedico'])) {
+            return view('Formatos.Solicitudes', compact('Solicitudes'));
+        }   
 
     }
 
@@ -34,8 +38,12 @@ class SolicitudMCCtrl extends Controller
      */
     public function create(Request $request)
     {
-        //$request->user()->authorizeRole(['superAdmin', 'Ingeniero', 'personalMedico']);
-         return view('Formatos.newSolicitudMC');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero', 'personalMedico'])) {
+            return view('Formatos.newSolicitudMC');
+        }  
     }
 
     /**
@@ -46,29 +54,35 @@ class SolicitudMCCtrl extends Controller
      */
     public function store(Request $request)
     {
-        
+        $reporta = $request->user()->name;
+        //dd($reporta);
         $Solicitud = new Solicitud();
         $Solicitud->ID_inv = $request->input('ID_inv');
         //RELACION CON EL EQUIPO (foreingKey)
         $Equipo = Equipo::where('ID_inventario', $request->ID_inv)->get();
         $Solicitud->Descripcion_del_fallo = $request->input('Descripcion_del_fallo');
     $Solicitud->Observaciones = $request->input('Observaciones');
-        $Solicitud->Nombre =  $Equipo[0]['Nombre'];
-        $Solicitud->Marca =  $Equipo[0]['Marca'];
-        $Solicitud->Modelo =  $Equipo[0]['Modelo'];
-        $Solicitud->Area =  $Equipo[0]['Area'];
-        $Solicitud->Tipo =  $Equipo[0]['Tipo'];
-        $Solicitud->Num_de_serie =  $Equipo[0]['Num_de_serie'];
-        $Solicitud->Ubicacion =  $Equipo[0]['Ubicacion'];
-        $Solicitud->Mnto =  $Equipo[0]['Mnto'];
+        $Solicitud->Nombre = $Equipo[0]['Nombre'];
+        $Solicitud->Marca = $Equipo[0]['Marca'];
+        $Solicitud->Modelo = $Equipo[0]['Modelo'];
+        $Solicitud->Area = $Equipo[0]['Area'];
+        $Solicitud->Tipo = $Equipo[0]['Tipo'];
+        $Solicitud->Num_de_serie = $Equipo[0]['Num_de_serie'];
+        $Solicitud->Ubicacion = $Equipo[0]['Ubicacion'];
+        $Solicitud->Mnto = $Equipo[0]['Mnto'];
+        $Solicitud->reportadoPor = $reporta;
         $Solicitud->save();
-        $QRSolicitud = QrCode::size(150)->generate('http://192.168.100.23:8000/Solicitud/'.$Solicitud->id);
-        $QREquipo = QrCode::size(150)->generate('http://192.168.100.23:8000/Equipos/'.$Solicitud->ID_inv);
+
+        //$Equipo->fill($Equipo->Estatus = 'inactivo');
+        //$Equipo->save();                                                                                                                                                                                                                                                                                              
+        
+        $QRSolicitud = QrCode::size(150)->generate('http://protomedex.site/Solicitud/'.$Solicitud->id);
+        $QREquipo = QrCode::size(150)->generate('http://protomedex.site/Equipos/'.$Solicitud->ID_inv);
         $pdf = \PDF::loadView('Formatos.Solicitud', [ "valor1" => $QRSolicitud, "valor2" => $QREquipo], compact('Solicitud'));
         return $pdf->stream('Solicitud Mantenimiento.pdf');
 
         //no sé si funciona esta wea
-        $Equipo->status = 'inactivo';
+        
     }
 
     public function filtrarSolicitudes(Request $request){
@@ -88,10 +102,16 @@ class SolicitudMCCtrl extends Controller
     public function show(Request $request, $id)
     {
         $Solicitud = Solicitud::find($id);
-        $QRSolicitud = QrCode::size(150)->generate('http://192.168.100.23:8000/Solicitud/'.$Solicitud->id);
-        $QREquipo = QrCode::size(150)->generate('http://192.168.100.23:8000/Equipos/'.$Solicitud->ID_inv);
+        $QRSolicitud = QrCode::size(150)->generate('http://protomedex.site/Solicitud/'.$Solicitud->id);
+        $QREquipo = QrCode::size(150)->generate('http://protomedex.site/Equipos/'.$Solicitud->ID_inv);
         $pdf = \PDF::loadView('Formatos.Solicitud', [ "valor1" => $QRSolicitud, "valor2" => $QREquipo], compact('Solicitud'));
-        return $pdf->stream('prueba.pdf');
+        if(! $request->user()){
+            //Toastr::warning('Es necesario iniciar sesión para validar el acceso a los datos', 'Acceso denegado');
+            return view('auth.login');
+        } elseif($request->user()->authorizeRole(['superAdmin', 'Ingeniero', 'personalMedico'])) {
+            return $pdf->stream('Solicitud.pdf');
+        } 
+       
     }
 
     /**

@@ -27,7 +27,7 @@
                                         Ubicación: {{$Marca->Ubicacion}}
                 </p>
 
-                <a href="/Equipos/{{$Marca->id}}" class="btn btn-primary">Ir al equipo</a>
+                <a href="/Marcas/{{$Marca->NombreMrk}}" class="btn btn-primary">Ver marca</a>
                 </div>
             </div> 
         </div>

@@ -29,17 +29,21 @@
                         <li class="list-group-item">Último mantenimiento: {{$Equipo->ultimoMantenimiento}}</li>
                     </ul>
                         <div class="card-body">
-                            <a href="/Equipos/{{$Equipo->ID_inventario}}/edit" class="btn btn-outline-primary" role="button">Editar</a>
-                            <a class="btn btn-info mt-2" role="button" href="{{route('Solicitud.create')}}">Solicitar mantenimiento</a>
+                            <a href="/Equipos/{{$Equipo->ID_inventario}}/edit" class="btn btn-outline-primary btn-lg btn-block" role="button">Editar</a>
+                            <a class="btn btn-info btn-lg btn-block mt-2" role="button" href="{{route('Solicitud.create')}}">Solicitar mantenimiento</a>
                             <form action="{{route('qr')}}" class="form-group mt-2" method="POST">
                                 @csrf
+                                <div class="slider-wrapper">
+                                    <label class="mt-2"> Tamaños del código</label></br>
+                                    <input class="mb-3" type="range" min="70" max="480" name="Tamano" step="1">
+                                </div>
                                 <input class="form-control mr-sm-2" name="valor" id="valor" type="hidden" value="{{$Equipo->ID_inventario}}">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Solicitar qr</button>
+                                <button class="btn btn-outline-success btn-lg btn-block my-2 my-sm-0" type="submit">Generar QR</button>
                             </form>
                             <form class="form-group mt-2" method="POST" action="/Equipos/{{$Equipo->ID_inventario}}" enctype="multipart/form-data">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-lg btn-block">Eliminar</button>
                             </form>
                         </div>
                 </div>

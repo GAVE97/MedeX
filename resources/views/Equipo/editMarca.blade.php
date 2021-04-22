@@ -34,9 +34,35 @@
             
             <!-- Guardado de imagen del equipo -->
             <label for="">Foto de la marca</label> <br/>
-            <input type="file" name="imagenMarca" id="docpicker" accept="image/*,.jpg,.png" required><br/> <br/>
+            <input type="file" name="imagenMarca" id="docpicker" accept="image/*,.jpg,.png"><br/> <br/>
 
-            <button type="submit" class="btn btn-primary mt-2">Editar</button>
+                <!-- Button trigger modal -->
+                <div class="row justify-content-md-center mt-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    CONTINUAR
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Esta seguro de querer guardar los cambios?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 

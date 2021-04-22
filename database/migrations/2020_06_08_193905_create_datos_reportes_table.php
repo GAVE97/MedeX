@@ -58,9 +58,18 @@ class CreateDatosReportesTable extends Migration
             $table->date('vencimientoGarantia'); 
             $table->string('Consumo_electrico');
             $table->string('Mnto');
+            $table->string('ultimoMantenimiento');
             $table->foreign('Mnto')->references('NombreMnto')->on('mntos');
-            $table->string('prioridad');
-            $table->date('ultimoMantenimiento');
+            /**datos de la Evaluación Clínica*/
+            $table->string('frecUso')->nullable();
+            $table->string('confiabilidad')->nullable();
+            $table->string('facilidadUso')->nullable();
+            $table->string('contribucionTratamiento')->nullable();
+            $table->string('funcionEq')->nullable();
+            $table->string('riesgoEq')->nullable();
+            $table->string('requerimientosEq')->nullable();
+            $table->string('prioridad')->nullable();
+            /**fin de datos de la Evaluación Clínica*/
             $table->timestamps();
             $table->string('imagenEquipo');
         });
@@ -77,6 +86,7 @@ class CreateDatosReportesTable extends Migration
             $table->string('Num_de_serie');
             $table->string('Ubicacion');
             $table->string('Mnto');
+            $table->string('reportadoPor');
             $table->longText('Descripcion_del_fallo');
             $table->longText('Observaciones');
             $table->timestamps();

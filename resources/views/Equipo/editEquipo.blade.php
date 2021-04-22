@@ -136,18 +136,151 @@
     <div class="row justify-content-md-center">
     <div class="col-md-auto" aling="text-center">
         <input type="file" name="imagenEquipo"> <br/> <br/>
-        <label class="mr-4" for="inlineFormCustomSelectPref">Prioridad del equipo</label>
-        <select class="custom-select mr-sm-4" type="string" name="prioridad" id="inlineFormCustomSelectPref" value="{{$Equipo->prioridad}}" required>
-         <option value="I">I</option>
-         <option value="II">II</option>
-         <option value="III">III</option>
-         </select>
+        
+    <!-- Modelo de Fennigkoh y Smith -->
+    <label class="mt-2">Función del equipo</label>
+    <select class="custom-select mr-sm-4" type="string" name="funcionEq" id="inlineFormCustomSelectPref"  required>
+        <option value="10">Soporte de vida</option>
+        <option value="9">Cirugía y cuidados intensivos</option>
+        <option value="8">Terapia fisica y tratamiento</option>
+        <option value="7">Monitoreo qurúrgico y de cuidados intensivos</option>
+        <option value="6">Otros equipos para el monitoreo de variables fisiológicaas y el diagnóstico</option>
+        <option value="5">Laboratorio analítico</option>
+        <option value="4">Accesorios de laboratorio</option>
+        <option value="3">Sistema de cómputo y equipos asociados</option>
+        <option value="2">Equipos relacionados con los pacientes y otros equipos</option>
+    </select>
+
+    <label class="mt-2">Riesgo asociado a la aplicación clínica</label>
+    <select class="custom-select mr-sm-4" type="string" name="riesgoEq" id="inlineFormCustomSelectPref"  required>
+        <option value="5">Posible muerte del paciente</option>
+        <option value="4">Posible lesión del paciente o el usuario</option>
+        <option value="3">Terapia inepropiada o falso diagnóstico</option>
+        <option value="2">Daños en el equipo</option>
+        <option value="1">No se detectan riesgos significativos</option>
+    </select>
+
+    <label class="mt-2">Requerimientos de mantenimiento</label>
+    <select class="custom-select mr-sm-4" type="string" name="requerimientosEq" id="inlineFormCustomSelectPref"  required>
+    <option value="5">Extensivo: calibración de rutina y reemplazo de partes</option>
+        <option value="4">Superiores al promedio</option>
+        <option value="3">Promedio:verificación del desempeñe y pruebas de seguridad</option>
+        <option value="2">Inferiores al promedio</option>
+        <option value="1">Minimos: inspección visual</option>
+
+    </select>
+    <!-- fin Modelo de Fennigkoh y Smith -->
+    <!-- Evaluación clínica -->   
+        <div>
+            <fieldset>
+                <legend>Frecuencia de uso</legend>
+                <label>
+                    <input type="radio" name="frecUso" value="0"> Ninguno
+                </label>
+                <label>
+                    <input type="radio" name="frecUso" value="2"> Baja
+                </label>
+                <label>
+                    <input type="radio" name="frecUso" value="4"> Mediana
+                </label>
+                <label>
+                    <input type="radio" name="frecUso" value="6"> Alta
+                </label>
+                <label>
+                    <input type="radio" name="frecUso" value="8"> Muy alta
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Confiabilidad del equípo</legend>
+                <label>
+                    <input type="radio" name="confiabilidad" value="0"> Ninguno
+                </label>
+                <label>
+                    <input type="radio" name="confiabilidad" value="2"> Baja
+                </label>
+                <label>
+                    <input type="radio" name="confiabilidad" value="4"> Mediana
+                </label>
+                <label>
+                    <input type="radio" name="confiabilidad" value="6"> Alta
+                </label>
+                <label>
+                    <input type="radio" name="confiabilidad" value="8"> Muy alta
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Facilidad de uso</legend>
+                <label>
+                    <input type="radio" name="facilidadUso" value="0"> Ninguno
+                </label>
+                <label>
+                    <input type="radio" name="facilidadUso" value="2"> Baja
+                </label>
+                <label>
+                    <input type="radio" name="facilidadUso" value="4"> Mediana
+                </label>
+                <label>
+                    <input type="radio" name="facilidadUso" value="6"> Alta
+                </label>
+                <label>
+                    <input type="radio" name="facilidadUso" value="8"> Muy alta
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Contribución para el tratamiento </legend>
+                <label>
+                    <input type="radio" name="contribucionTratamiento" value="0"> Ninguno
+                </label>
+                <label>
+                    <input type="radio" name="contribucionTratamiento" value="2"> Baja
+                </label>
+                <label>
+                    <input type="radio" name="contribucionTratamiento" value="4"> Mediana
+                </label>
+                <label>
+                    <input type="radio" name="contribucionTratamiento" value="6"> Alta
+                </label>
+                <label>
+                    <input type="radio" name="contribucionTratamiento" value="8"> Muy alta
+                </label>
+            </fieldset>
+        </div> 
+    <!-- fin EC -->
     </div>           
     </div>
 
     <div class="row justify-content-md-center">
     <div class="col-md-auto" aling="text-center">
-        <button type="submit" class="btn btn-primary">Guardar</button>   
+                <!-- Button trigger modal -->
+                <div class="row justify-content-md-center mt-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    CONTINUAR
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Esta seguro de querer guardar los cambios?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
     </div>           
     </div>
     

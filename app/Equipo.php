@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Equipo extends Model
 {
-    protected $fillable = ['ID_inventario', 'Nombre', 'Area', 'Tipo', 'Marca', 'Modelo','Num_de_serie', 'Ubicacion', 'Estatus', 'vencimientoGarantia',
-    'Consumo_electrico', 'Mnto', 'prioridad', 'ultimoMantenimiento', 'imagenEquipo'];
+    protected $fillable = ['Nombre', 'Area', 'Tipo', 'Marca', 'Modelo','Num_de_serie', 'Ubicacion', 'Estatus', 'vencimientoGarantia',
+    'Consumo_electrico', 'Mnto', 'frecUso', 'confiabilidad', 'facilidadUso', 'contribucionTratamiento', 'funcionEq', 'riesgoEq',
+    'requerimientosEq', 'prioridad', 'imagenEquipo'];
     
     protected $primaryKey = 'ID_inventario';
     

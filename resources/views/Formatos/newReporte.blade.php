@@ -26,13 +26,13 @@
             <label class="mt-2">Tipo de servicio</label>
             <select class="custom-select mr-sm-4" type="string" name="tipo_de_servicio" id="inlineFormCustomSelectPref" required>
                 <option value="mantenimiento preventivo interno">Mantenimiento preventivo interno</option>
-                <option value="mantenimiento preventivo Externo">Mantenimiento preventivo externo</option>
+                <option value="mantenimiento preventivo externo">Mantenimiento preventivo externo</option>
                 <option value="mantenimiento correctivo interno">Mantenimiento correctivo interno</option>
                 <option value="mantenimiento correctivo externo">Mantenimiento correctivo externo</option>
-                <option value="instalacion">Instalación</option>
+                <option value="instalacion de equipo">Instalación de equipo</option>
                 <option value="prestamo de equipo">prestamo de equipo</option>
                 <option value="capacitacion">capacitación</option>
-                <option value="entrega de comsumibles/refaccione/accsesorioss">Entrega de Refacciópn</option>
+                <option value="entrega de comsumibles/refacciones/accesorios">Entrega de Refacción</option>
             </select>
             <label class="mt-2">Origen del fallo</label>
             <select class="custom-select mr-sm-4" type="string" name="origen_del_fallo" id="inlineFormCustomSelectPref" required>
@@ -45,7 +45,7 @@
             <label class="mt-2">Falla detectada</label>
             <input type="string" name="falla_detectada" pattern="[a-zA-Z0-9._%+-  áéíóúÑñüäàè\s]*" class="form-control" placeholder="causa del fallo, origen del error" required>
             <label class="mt-2">Actividades realizadas</label>
-            <input type="longText" name="actividades_realizadas" pattern="[a-zA-Z0-9._%+-  áéíóúÑñüäàè\s]*" class="form-control" placeholder="Descripción consisa" required>
+            <input type="longText" name="actividades_realizadas" pattern="[a-zA-Z0-9._%+-  áéíóúÑñüäàè\s]*" class="form-control" placeholder="Descripción concisa" required>
 
             <label class="mt-2">Materiales</label>
             <input type="string" name="Materiales" pattern="[a-zA-Z0-9._%+-  áéíóúÑñüäàè\s]*" class="form-control" placeholder="Lubricante, electrónicos, etc." required>
